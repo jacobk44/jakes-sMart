@@ -1,0 +1,11 @@
+@media (min-width: 40em) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card img {
+        width: 20px;
+        height: 20px;
+    }
+
+}

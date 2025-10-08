@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Shopping | Checkout</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  
+
+</head>
+
+<body>
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <h1>🛍️ Student Shopping</h1>
+      <p class="subtitle">Demo project — Fetch, LocalStorage, Notifications</p>
+    </div>
+
+    <div class="controls">
+      <input id="searchInput" type="search" placeholder="Search products..." />
+      <a href="../cart/cart.html" class="primary" id="viewCartBtn">
+        🛒 View Cart (<span id="cartCount">0</span>)
+      </a>
+    </div>
+  </header>
+
+
+  <!-- Main Checkout Section -->
+  <main class="divider checkout">
+    <h2>Review & Place Your Order</h2>
+    <section class="checkout-form">
+      <form name="checkout" id="checkoutForm">
+        <!-- Shipping Info -->
+        <fieldset>
+          <legend>Shipping</legend>
+          <div class="checkout__name">
+            <label for="fname">First Name</label>
+            <input id="fname" name="fname" required />
+
+            <label for="lname">Last Name</label>
+            <input id="lname" name="lname" required />
+          </div>
+
+          <div class="checkout__address">
+            <label for="street">Street</label>
+            <input id="street" name="street" required />
+
+            <label for="city">City</label>
+            <input id="city" name="city" required />
+
+            <label for="state">State</label>
+            <input id="state" name="state" required />
+
+            <label for="zip">Zip</label>
+            <input id="zip" name="zip" required />
+          </div>
+        </fieldset>
+
+        <!-- Order Summary -->
+        <fieldset class="checkout-summary">
+          <legend>Order Summary</legend>
+          <ul class="no-bullets">
+            <li>
+              <label>Item Subtotal (<span id="num-items">0</span>)</label>
+              <p id="cartTotal">$0.00</p>
+            </li>
+            <li>
+              <label>Shipping Estimate</label>
+              <p id="shipping">$0.00</p>
+            </li>
+            <li>
+              <label>Tax</label>
+              <p id="tax">$0.00</p>
+            </li>
+            <li>
+              <label><strong>Order Total</strong></label>
+              <p id="orderTotal"><strong>$0.00</strong></p>
+            </li>
+          </ul>
+        </fieldset>
+
+        <!-- Submit -->
+        <button id="checkoutSubmit" type="submit" class="primary">Place Order</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer id="main-footer">
+    &copy;2025 🛒 Student Shopping Mart — Built for WDD 330 BYU–Idaho Pathway
+  </footer>
+
+  <!-- JavaScript -->
+</body>
+
+</html>

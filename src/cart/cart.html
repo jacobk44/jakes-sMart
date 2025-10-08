@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sleep Outside | Cart</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/cart.js" type="module"></script>
+</head>
+
+<body>
+  <!-- Cart Modal -->
+  <div id="cartModal" class="modal">
+    <div class="modal-inner">
+      <header class="modal-header">
+        <h2>Your Cart</h2>
+        <button id="closeCartBtn" class="btn-sm">Close</button>
+      </header>
+
+      <ul id="cartItems" class="cart-items">
+        <!-- Cart items will appear here -->
+      </ul>
+
+      <footer class="modal-footer">
+        <div class="total">Total: $<span id="cartTotal">0.00</span></div>
+        <div class="cart-actions">
+          <a href="../checkout/checkout.html" class="primary" id="checkoutBtn">Checkout</a>
+          <button id="clearCartBtn" class="btn-sm">Clear Cart</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</body>
+
+</html>
