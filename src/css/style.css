@@ -63,7 +63,6 @@ input[type="search"] {
   border: 0;
 }
 
-/* Grid */
 main {
   padding: 1rem
 }
@@ -72,7 +71,6 @@ h2 {
   margin: 0 0 0.5rem 0
 }
 
-/* Grid layout for product cards */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -80,15 +78,6 @@ h2 {
   padding: 1rem;
 }
 
-/* === Product Cards === */
-/* .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 2rem;
-  padding: 1rem;
-} */
-
-/* Each product box */
 .product-card {
   background: var(--card);
   border-radius: 12px;
@@ -103,7 +92,6 @@ h2 {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
 }
 
-/* Product image */
 .product-card img {
   width: 100%;
   height: 200px;
@@ -111,28 +99,24 @@ h2 {
   border-radius: 10px;
   margin-bottom: 0.5rem;
 
-  /* Center the image */
   display: block;
   margin-left: auto;
   margin-right: auto;
 }
 
 
-/* Product name */
 .product-card h3 {
   font-size: 1rem;
   font-weight: 600;
   margin: 0.5rem 0;
 }
 
-/* Price */
 .product-card p {
   font-size: 0.95rem;
   color: var(--muted);
   margin-bottom: 0.75rem;
 }
 
-/* Add to cart button */
 .product-card button {
   background: var(--accent);
   color: white;
@@ -166,7 +150,6 @@ h2 {
 
 
 
-/* Modal */
 .modal {
   position: fixed;
   inset: 0;
@@ -209,14 +192,12 @@ h2 {
 
 .active {
   display: none;
-  /* Hidden by default */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* Semi-transparent background */
   z-index: 1000;
   justify-content: center;
   align-items: center;
@@ -240,7 +221,6 @@ h2 {
   margin: 10px 0 20px;
 }
 
-/* Ensure modal is visible when active */
 .active {
   display: flex;
 }
@@ -300,7 +280,6 @@ h2 {
 }
 
 
-/* Responsive */
 @media (max-width:640px) {
   .modal-inner {
     max-width: 96%
@@ -325,20 +304,16 @@ h2 {
 
   .grid {
     grid-template-columns: 1fr;
-    /* one card per row */
     justify-items: center;
-    /* centers the product box horizontally */
   }
 
   .product-card {
     max-width: 320px;
-    /* keeps a nice box width */
     width: 90%;
     margin: 0 auto;
   }
 }
 
-/* === Checkout Page Styles === */
 .checkout-container {
   max-width: 780px;
   margin: 2rem auto;
@@ -411,7 +386,6 @@ h2 {
   margin-top: 1rem;
 }
 
-/* Responsive checkout */
 @media (max-width:640px) {
   .checkout-container {
     padding: 1rem;

@@ -1,57 +1,60 @@
 // js/main.js
+import { addToCart, getCart } from "./storage.mjs";
+
+const API_URL = "https://fakestoreapi.com/products?limit=12";
 const productList = document.querySelector("#productList");
-const searchInput = document.querySelector("#searchInput");
 const cartCount = document.querySelector("#cartCount");
+const searchInput = document.querySelector("#searchInput");
 
-async function fetchProducts() {
+let products = [];
+
+async function loadProducts() {
     try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        if (!response.ok) throw new Error("Failed to load products");
-        const products = await response.json();
-        displayProducts(products);
-
-        // Enable live search
-        searchInput.addEventListener("input", (e) => {
-            const searchText = e.target.value.toLowerCase();
-            const filtered = products.filter(p =>
-                p.title.toLowerCase().includes(searchText)
-            );
-            displayProducts(filtered);
-        });
-
+        const res = await fetch(API_URL);
+        products = await res.json();
+        renderProducts(products);
     } catch (err) {
-        productList.innerHTML = `<p class="error">⚠️ ${err.message}</p>`;
+        productList.innerHTML = "<p>❌ Failed to load products. Check connection.</p>";
     }
 }
 
-function displayProducts(products) {
-    productList.innerHTML = products.map(product => `
+function renderProducts(list) {
+    productList.innerHTML = list.map(p => `
     <div class="product-card">
-      <img src="${product.image}" alt="${product.title}" class="product-img" />
-      <h3>${product.title}</h3>
-      <p class="price">$${product.price.toFixed(2)}</p>
-      <button class="add-btn" data-id="${product.id}">Add to Cart</button>
+      <img src="${p.image}" alt="${p.title}" class="product-img" />
+      <h3>${p.title}</h3>
+      <p class="price">$${p.price.toFixed(2)}</p>
+      <button class="add-btn" data-id="${p.id}" data-title="${p.title}" data-price="${p.price}" data-image="${p.image}">
+        Add to Cart
+      </button>
     </div>
   `).join("");
 
-    // Add event listeners to buttons
     document.querySelectorAll(".add-btn").forEach(btn => {
-        btn.addEventListener("click", () => addToCart(btn.dataset.id));
+        btn.addEventListener("click", () => {
+            const item = {
+                id: btn.dataset.id,
+                title: btn.dataset.title,
+                price: parseFloat(btn.dataset.price),
+                image: btn.dataset.image
+            };
+            addToCart(item);
+            updateCartCount();
+            alert("✅ Added to cart!");
+        });
     });
 }
 
-function addToCart(id) {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.push(id);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    updateCartCount();
-    alert("✅ Added to cart!");
-}
-
 function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const cart = getCart();
     cartCount.textContent = cart.length;
 }
 
+searchInput.addEventListener("input", (e) => {
+    const q = e.target.value.toLowerCase();
+    const filtered = products.filter(p => p.title.toLowerCase().includes(q));
+    renderProducts(filtered);
+});
+
 updateCartCount();
-fetchProducts();
+loadProducts();
