@@ -5,7 +5,7 @@
    - Remove items and clear cart
 */
 
-import { getCart, saveCart, clearCart, getTotal } from './storage.mjs';
+import { getCart, saveCart, clearCart, getTotal } from "./storage.mjs";
 
 // DOM Elements
 const cartCount = document.getElementById("cartCount");
@@ -89,5 +89,5 @@ function attachCartListeners() {
 // ----- Utility -----
 function escapeHtml(text) {
     if (!text) return "";
-    return text.replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[m]);
+    return text.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", " ": "&quot;", "'": "&#39;" })[m]);
 }
