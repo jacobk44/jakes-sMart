@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Student Shopping | Checkout</title>
   <link rel="stylesheet" href="../css/style.css" />
-  
-
+  <link rel="stylesheet" href="../css/large-style.css" />
+  <script type="module" src="../js/checkout.mjs"></script>
 </head>
 
 <body>
@@ -17,7 +17,6 @@
       <h1>🛍️ Student Shopping</h1>
       <p class="subtitle">Demo project — Fetch, LocalStorage, Notifications</p>
     </div>
-
     <div class="controls">
       <input id="searchInput" type="search" placeholder="Search products..." />
       <a href="../cart/cart.html" class="primary" id="viewCartBtn">
@@ -25,7 +24,6 @@
       </a>
     </div>
   </header>
-
 
   <!-- Main Checkout Section -->
   <main class="divider checkout">
@@ -38,21 +36,16 @@
           <div class="checkout__name">
             <label for="fname">First Name</label>
             <input id="fname" name="fname" required />
-
             <label for="lname">Last Name</label>
             <input id="lname" name="lname" required />
           </div>
-
           <div class="checkout__address">
             <label for="street">Street</label>
             <input id="street" name="street" required />
-
             <label for="city">City</label>
             <input id="city" name="city" required />
-
             <label for="state">State</label>
             <input id="state" name="state" required />
-
             <label for="zip">Zip</label>
             <input id="zip" name="zip" required />
           </div>
@@ -61,6 +54,9 @@
         <!-- Order Summary -->
         <fieldset class="checkout-summary">
           <legend>Order Summary</legend>
+          <ul class="no-bullets" id="orderItems">
+            <!-- Cart items will be dynamically inserted here -->
+          </ul>
           <ul class="no-bullets">
             <li>
               <label>Item Subtotal (<span id="num-items">0</span>)</label>
@@ -91,8 +87,6 @@
   <footer id="main-footer">
     &copy;2025 🛒 Student Shopping Mart — Built for WDD 330 BYU–Idaho Pathway
   </footer>
-
-  <!-- JavaScript -->
 </body>
 
 </html>
