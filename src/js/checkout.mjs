@@ -1,35 +1,35 @@
 // Load cart from localStorage, default to empty array
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-console.log("Initial cart on checkout load:", cart); // Debug log
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+console.log('Initial cart on checkout load:', cart); // Debug log
 
 // Update cart count in header
 function updateCartCount() {
     const cartCount = cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
-    const cartCountElement = document.getElementById("cartCount");
+    const cartCountElement = document.getElementById('cartCount');
     if (cartCountElement) cartCountElement.textContent = cartCount || 0;
-    console.log("Cart count on load:", cartCount); // Debug log
+    console.log('Cart count on load:', cartCount); // Debug log
 }
 
 // Display cart items in order summary
 async function displayCartItems() {
-    const orderItemsList = document.getElementById("orderItems");
+    const orderItemsList = document.getElementById('orderItems');
     if (!orderItemsList) {
-        console.error("Order items list (#orderItems) not found in DOM");
+        console.error('Order items list (#orderItems) not found in DOM');
         return;
     }
     orderItemsList.innerHTML = ''; // Clear existing items
 
     if (cart.length === 0) {
-        orderItemsList.innerHTML = "<li>No items in cart.</li>";
-        console.warn("Cart is empty on checkout"); // Debug log
+        orderItemsList.innerHTML = '<li>No items in cart.</li>';
+        console.warn('Cart is empty on checkout'); // Debug log
         return;
     }
 
     try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        if (!response.ok) throw new Error("Failed to fetch products");
+        const response = await fetch('https://fakestoreapi.com/products');
+        if (!response.ok) throw new Error('Failed to fetch products');
         const products = await response.json();
-        console.log("Fetched products:", products); // Debug log
+        console.log('Fetched products:', products); // Debug log
 
         let itemsDisplayed = 0;
         cart.forEach(item => {
@@ -51,11 +51,11 @@ async function displayCartItems() {
         });
         console.log(`Displayed ${itemsDisplayed} items from cart:`, cart); // Debug log
         if (itemsDisplayed === 0) {
-            orderItemsList.innerHTML = "<li>No valid items to display.</li>";
+            orderItemsList.innerHTML = '<li>No valid items to display.</li>';
         }
     } catch (error) {
-        console.error("Error fetching products:", error);
-        orderItemsList.innerHTML = "<li>Error loading items.</li>";
+        console.error('Error fetching products:', error);
+        orderItemsList.innerHTML = '<li>Error loading items.</li>';
     }
 }
 
@@ -63,7 +63,8 @@ async function displayCartItems() {
 function updateSummary() {
     const numItems = cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0);
     const subtotal = cart.reduce((sum, item) => {
-        const price = Number(item.price) || 0; // Use localStorage price if available
+        // Use price from localStorage cart if available, fallback to 0
+        const price = Number(item.price) || 0;
         const quantity = Number(item.quantity) || 1;
         return sum + (isNaN(price) || isNaN(quantity) ? 0 : price * quantity);
     }, 0);
@@ -72,11 +73,11 @@ function updateSummary() {
     const tax = subtotal * taxRate;
     const total = subtotal + shipping + tax;
 
-    const numItemsElement = document.getElementById("num-items");
-    const cartTotalElement = document.getElementById("cartTotal");
-    const shippingElement = document.getElementById("shipping");
-    const taxElement = document.getElementById("tax");
-    const orderTotalElement = document.getElementById("orderTotal");
+    const numItemsElement = document.getElementById('num-items');
+    const cartTotalElement = document.getElementById('cartTotal');
+    const shippingElement = document.getElementById('shipping');
+    const taxElement = document.getElementById('tax');
+    const orderTotalElement = document.getElementById('orderTotal');
 
     if (numItemsElement) numItemsElement.textContent = numItems || 0;
     if (cartTotalElement) cartTotalElement.textContent = `$${subtotal.toFixed(2)}`;
@@ -85,68 +86,64 @@ function updateSummary() {
     if (orderTotalElement) orderTotalElement.textContent = `$${total.toFixed(2)}`;
 
     // Disable submit button if cart is empty or invalid
-    const checkoutSubmit = document.getElementById("checkoutSubmit");
+    const checkoutSubmit = document.getElementById('checkoutSubmit');
     if (checkoutSubmit) checkoutSubmit.disabled = numItems === 0;
 
-    console.log("Calculated Summary - Subtotal: $" + subtotal.toFixed(2) + ", Shipping: $" + shipping.toFixed(2) + ", Tax: $" + tax.toFixed(2) + ", Total: $" + total.toFixed(2)); // Debug log
+    console.log('Calculated Summary - Subtotal: $' + subtotal.toFixed(2) + ', Shipping: $' + shipping.toFixed(2) + ', Tax: $' + tax.toFixed(2) + ', Total: $' + total.toFixed(2)); // Debug log
 }
 
 // Handle form submission
 async function handleCheckout(event) {
     event.preventDefault();
 
-    const form = document.getElementById("checkoutForm");
+    const form = document.getElementById('checkoutForm');
     if (form && !form.checkValidity()) {
         form.reportValidity();
         return;
     }
 
     if (cart.length === 0) {
-        alert("Your cart is empty. Please add items before checking out.");
+        alert('Your cart is empty. Please add items before checking out.');
         return;
     }
 
     // Collect shipping info
     const shipping = {
-        firstName: document.getElementById("fname")?.value || " ",
-        lastName: document.getElementById("lname")?.value || "",
-        street: document.getElementById("street")?.value || "",
-        city: document.getElementById("city")?.value || "",
-        state: document.getElementById("state")?.value || "",
-        zip: document.getElementById("zip")?.value || "",
+        firstName: document.getElementById('fname')?.value || '',
+        lastName: document.getElementById('lname')?.value || '',
+        street: document.getElementById('street')?.value || '',
+        city: document.getElementById('city')?.value || '',
+        state: document.getElementById('state')?.value || '',
+        zip: document.getElementById('zip')?.value || '',
     };
 
-    console.log("Cart sent to server:", cart); // Debug log
-    console.log("Shipping info sent to server:", shipping); // Debug log
+    console.log('Cart sent to server:', cart); // Debug log
     try {
-        const response = await fetch('http://localhost:3000/create-checkout-session', {
+        const response = await fetch('/create-checkout-session', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ cart, shipping }),
         });
 
         if (!response.ok) {
-            const errorText = await response.text(); // Get detailed error message
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            throw new Error('Failed to create checkout session');
         }
 
-        const data = await response.json();
-        console.log("Server response:", data); // Debug log
-        if (!data.url) throw new Error("No URL returned from server");
-        window.location = data.url; // Redirect to Stripe Checkout
+        const { url } = await response.json();
+        window.location = url; // Redirect to Stripe Checkout
     } catch (error) {
-        console.error("Error in checkout:", error.message); // Detailed error log
-        alert(`Checkout failed. Please try again. Error: ${error.message}`);
+        console.error('Error in checkout:', error);
+        alert('Checkout failed. Please try again.');
     }
 }
 
 // Initialize
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener('DOMContentLoaded', async () => {
     updateCartCount();
     await displayCartItems(); // Await API fetch
     updateSummary();
-    const form = document.getElementById("checkoutForm");
-    if (form) form.addEventListener("submit", handleCheckout);
+    const form = document.getElementById('checkoutForm');
+    if (form) form.addEventListener('submit', handleCheckout);
 });
 
 // Utility function for escaping HTML
